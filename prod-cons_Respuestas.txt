@@ -1,0 +1,24 @@
+Respuesta: Productor y consumidores
+
+1.- Miralo un rato y asegurate de entender la traza (línea de tiempo de ejecución).
+Agregue un comentario mediante logging.info, para poder reconocer en que momento se "produce" y que hilo lo hace.
+Encuentro que lo hace el Mainthread.
+A medida que Mainthread "produce un item", el hilo de la clase Consumidor, lo "consume". Osea, que por cada item generado, el hilo de la clase consumidor lo va tomando a medida que el Mainthread le notifica.
+
+2.- ¿Por qué el thread que consume sigue consumiendo hasta que se acaban los ítems?
+Por dos cosas: 
+- Desde el thread del producto (que es el Mainthread, ejecutando la funcion de productor), es una funcion con una iteracion de 39 ciclos. Mientras ese ciclo se mantenga, siempre habra un item a consumir. durante los 30 ciclos.
+- El thread del consumidor  (que es el thread que se genera a partir de la clase Consumidor), espera a consumir, hasta que en la lista de item, haya 1 items, que es lo que puede consumir. Cuando el item aparece el la lista gracias a la notificacion del productor, toma el primer item de la pila.
+
+3.- Suponete que hubiera más de un thread consumiendo. ¿Puede haber más de un consumidor consumiendo a la vez? ¿Por qué? ¿En qué parte de código se maneja eso?
+Si puede haber. Habria que modificar la notificacion, para en vez de avisar al thread que esta esperando, avise a todos los thread, y el primero que ingrese, deberia tener un semafono para tomar el acceso al item. Sin semaforos, dejando la notificacion como esta, los threads hirian tomando los items por turno.
+
+4.- En comensales hay también un esquema de productor (el cocinero) y de consumidores (los comensales), ¿cuál o cuáles son las diferencias de comensales respecto a este?
+La diferencia esta en que en el escenario de comensales, los mismos consumian y llamaban a los cocineros cada vez que se terminaban los platos. En el escenario de productor y consumidor, el productor es el que "produce" los items necesarios y notifica a los consumidores para que los mismos, consuman lo producido. 
+
+5.- Modificá prod-cons.py para que haya varios threads consumiendo.
+Archivo: prod-cons_variosThreadsConsumiendo.py
+
+6.- Agregá la posibilidad de que haya consumidores que consuman distintas cantidades (y no siempre de a un ítem).
+7.-Agregá que cada consumidor pueda consumir solamente una vez (la cantidad que corresponda).
+prod-cons_variosThreadsConsumiendo_distintasCantidades.py
