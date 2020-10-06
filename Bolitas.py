@@ -40,7 +40,7 @@ class Participante(threading.Thread):
             logging.info(f'RONDA {contador}')
             with self.monitor:   # hace un acquiere y al final un release, cuando el participante es notificado
             
-                self.monitor.wait()
+                #self.monitor.wait()
                 logging.info(f'{self.nombre} va a ingresar {self.cantidadBolitasQuePone} BOLITAS')
                 for i in range (int(self.cantidadBolitasQuePone)):
                     logging.info(f'{self.nombre} ingresa {i + 1} BOLITA,  de la RONDA {contador}')
